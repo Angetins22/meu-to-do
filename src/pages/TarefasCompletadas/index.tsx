@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button"
 import Tarefa from "@/components/Tarefa"
+import {
+    ButtonGroup,
+    ButtonGroupSeparator,
+    ButtonGroupText,
+} from "@/components/ui/button-group"
 
 const TarefasCompletadas: React.FC = () => {
     return (
@@ -8,6 +13,16 @@ const TarefasCompletadas: React.FC = () => {
                 <h1 className='text-2xl'>USUARIO TAREFAS COMPLETADAS</h1>
                 <Button className="cursor-pointer pr-10 pl-10 bg-black text-white " variant="outline">Deslogar</Button>
             </div>
+
+            <div className='flex justify-center border-2 border-black rounded-sm p-2'>
+                <ButtonGroup>
+                    <Button size='default' className='cursor-pointer p-7'>Projetos</Button>
+                    <Button size='default' className='cursor-pointer p-7'>Tarefas</Button>
+                    <Button size='lg' className='cursor-pointer p-8'>Tarefas Completadas 2</Button>
+                    <Button size='default' className='cursor-pointer p-7'>Projetos Completados</Button>
+                </ButtonGroup>
+            </div>
+
 
             <div className="p-6 space-y-4">
                 <Tarefa tarefa="Teste" data="1/1/2000" concluida />
