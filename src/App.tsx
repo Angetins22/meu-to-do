@@ -7,6 +7,7 @@ import Projetos from './pages/Projetos'
 import ProjetosCompletados from './pages/ProjetosCompletados'
 import TarefasCompletadas from './pages/TarefasCompletadas'
 import Nav from './components/Nav'
+import Usuario from './components/Usuario'
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
 
     <div className='bg-background w-screen h-screen flex justify-center pt-5 pb-5'>
       <div className='max-w-5xl h-full w-full'>
+        <Usuario />
         {location.pathname !== '/login' && < Nav />}
         <Routes >
           <Route path="/" element={<Home />} />

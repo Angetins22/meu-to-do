@@ -20,46 +20,34 @@ interface Props {
     data: Date
     concluida: boolean
     expandido: boolean
-    cor: string
 }
 
-const Projeto: React.FC<Props> = ({ nome, data, concluida, expandido, cor }) => {
+const Projeto: React.FC<Props> = ({ nome, data, concluida, expandido }) => {
     return (
         <aside>
-            <Card>
-                <Accordion type="single" collapsible>
-                    <AccordionItem value="item-1">
-                        <AccordionTrigger>
-                            <div className="flex flex-row  items-center gap-3 pl-2 pr-2 mb-2">
-                                <Button variant="outline" size="icon" className=" p-3 cursor-pointer border border-black">
-                                    <FaArrowDown />
-                                </Button>
-                                <p className="text-2xl flex-1">{nome}</p>
-                                <p className="text-2xl flex-1">{data.toTimeString()}</p>
-                                {concluida}
-                                <Button variant="outline" size="icon" className="text-2xl flex-1  cursor-pointer border border-black"> Marcar como completo</Button>
-                                {cor}
-                                <Button variant="outline" size="icon" className=" p-3 cursor-pointer border border-black">
-                                    <IoIosColorPalette />
-                                </Button>
-                                <Button variant="outline" size="icon" className=" p-3 cursor-pointer border border-black">
-                                    <MdEdit />
-                                </Button>
-                                <Button variant="outline" size="icon" className=" p-3 cursor-pointer border border-black">
-                                    <MdDelete />
-                                </Button>
-                                {expandido}
-                            </div>
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            <Adicionar tipo='tarefa' />
-                            <div>
-                                <Tarefa tarefa="Tarefa1" data={new Date()} concluida />
-                                <Tarefa tarefa="Tarefa2" data={new Date()} concluida />
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                </Accordion>
+            <Card className="flex flex-row items-center gap-4 p-5">
+                <div className="flex flex-1 flex-row items-center justify-between">
+                    <Button variant="outline" size="icon" className=" p-3 cursor-pointer border border-black">
+                        <FaArrowDown />
+                    </Button>
+                    <p className="text-xl flex-1 ml-3">{nome}</p>
+                    <p className="text-xl ">{data.toTimeString()}</p>
+                    {concluida}
+                </div>
+                <div className="flex items-end justify-between">
+                    <Button variant="ghost" size="icon" className="ml-2 mr-2 cursor-pointer">completar</Button>
+                    <Button variant="ghost" size="icon" className="cursor-pointer ">
+                        <IoIosColorPalette />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="cursor-pointer ">
+                        <MdEdit />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="cursor-pointer ">
+                        <MdDelete />
+                    </Button>
+                </div>
+                {expandido}
+                <Adicionar tipo='tarefa ao projeto' />
             </Card>
         </aside>
     )
