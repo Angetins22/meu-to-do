@@ -1,18 +1,23 @@
 
 import './App.css'
-import { Route, Routes } from 'react-router'
+import { Route, Routes, useLocation } from 'react-router'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Projetos from './pages/Projetos'
 import ProjetosCompletados from './pages/ProjetosCompletados'
 import TarefasCompletadas from './pages/TarefasCompletadas'
+import Nav from './components/Nav'
 
 
 function App() {
 
+  const location = useLocation()
+
   return (
+
     <div className='bg-background w-screen h-screen flex justify-center pt-5 pb-5'>
       <div className='max-w-5xl h-full w-full'>
+        {location.pathname !== '/login' && < Nav />}
         <Routes >
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

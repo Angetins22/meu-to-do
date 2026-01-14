@@ -8,6 +8,8 @@ import {
     ButtonGroupText,
 } from "@/components/ui/button-group"
 import Nav from "@/components/Nav"
+import { MdOutlineFollowTheSigns } from "react-icons/md"
+import BotaoSair from "@/components/BotaoSair"
 
 
 const Projetos: React.FC = () => {
@@ -15,22 +17,16 @@ const Projetos: React.FC = () => {
         <>
             <div className='flex flex-row justify-between items-center'>
                 <h1 className='text-2xl'>USUARIO PROJETOS</h1>
-                <Button className="cursor-pointer pr-10 pl-10 bg-black text-white " variant="outline">Deslogar</Button>
+                <BotaoSair />
             </div>
 
-            <Nav />
+
 
             <div className="p-6 space-y-4">
                 <Adicionar tipo="Projeto" />
             </div>
             <div className='border-2 border-black rounded-sm p-5'>
                 <Projeto nome="Projeto" data={new Date()} concluida cor="azul" expandido />
-                <div>
-                    <Adicionar tipo="Tarefa ao projeto" />
-                </div>
-                <div>
-                    <Tarefa tarefa="Tarefa1" data={new Date()} concluida />
-                </div>
             </div>
         </>
     )

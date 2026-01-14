@@ -12,14 +12,14 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-interface Props {
+export interface ITarefa {
     tarefa: string
     data: Date
     concluida: boolean
 
 }
 
-const Tarefa: React.FC<Props> = ({ tarefa, data, concluida }) => {
+const Tarefa: React.FC<ITarefa> = ({ tarefa, data, concluida }) => {
     return (
         <aside>
             <Card className="flex flex-row items-center justify-between gap-4 p-5">
@@ -38,7 +38,7 @@ const Tarefa: React.FC<Props> = ({ tarefa, data, concluida }) => {
                     </Button>
                 </div>
             </Card>
-        </aside>
+        </aside >
     )
 }
 

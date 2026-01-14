@@ -1,4 +1,4 @@
-import Tarefa from '@/components/Tarefa'
+
 import Adicionar from '@/components/Adicionar'
 import { Button } from "@/components/ui/button"
 import {
@@ -7,24 +7,35 @@ import {
     ButtonGroupText,
 } from "@/components/ui/button-group"
 import Nav from '@/components/Nav'
+import { MdOutlineFollowTheSigns } from 'react-icons/md'
+import BotaoSair from '@/components/BotaoSair'
+import { useState } from 'react'
+import type { ITarefa } from '@/components/Tarefa'
+import Tarefa from '@/components/Tarefa'
+
 
 
 const Home: React.FC = () => {
+
+    const [tarefas, setTarefas] = useState<ITarefa[]>([{ tarefa: 'pao', data: new Date(), concluida: true }, { tarefa: 'pao2', data: new Date(), concluida: false }])
+
     return (
         <>
             <div className='flex flex-row justify-between items-center mb-5'>
                 <h1 className='text-2xl'>USUARIO TASKS</h1>
-                <Button className="cursor-pointer pr-10 pl-10 bg-black text-white " variant="outline">Deslogar</Button>
+                <BotaoSair />
             </div>
 
-            <Nav />
+
 
             <div className="p-6 space-y-4">
                 <Adicionar tipo="Tarefa" />
 
-                <Tarefa tarefa="Teste" data={new Date()} concluida />
-                <Tarefa tarefa="Teste2" data={new Date()} concluida />
-                <Tarefa tarefa="Teste3" data={new Date()} concluida />
+                <ul>
+                    {tarefas.map(({ tarefa, data, concluida }) => {
+                        return <Tarefa tarefa={tarefa} data={data} concluida={concluida} />
+                    })}
+                </ul>
             </div>
         </>
     )
