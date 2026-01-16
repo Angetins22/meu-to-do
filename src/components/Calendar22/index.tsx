@@ -12,9 +12,15 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-export default function Calendar22() {
+
+interface Props {
+    onDate: (data: Date | undefined) => void
+    dataInicial: Date | undefined
+}
+
+const Calendar22: React.FC<Props> = ({ onDate, dataInicial }) => {
     const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(undefined)
+    const [date, setDate] = React.useState<Date | undefined>(dataInicial)
 
     return (
         <div className="flex flex-col gap-3">
@@ -35,6 +41,7 @@ export default function Calendar22() {
                         selected={date}
                         captionLayout="dropdown"
                         onSelect={(date) => {
+                            onDate(date)
                             setDate(date)
                             setOpen(false)
                         }}
@@ -44,3 +51,5 @@ export default function Calendar22() {
         </div>
     )
 }
+
+export default Calendar22

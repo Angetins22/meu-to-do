@@ -14,6 +14,8 @@ interface Props {
 const Adicionar: React.FC<Props> = ({ tipo, tarefas, setTarefas }) => {
 
     const [task, setTask] = useState<string>('')
+    const [data, setData] = useState<undefined | Date>(undefined)
+
 
     const handleAddTarefaList = () => {
 
@@ -21,9 +23,14 @@ const Adicionar: React.FC<Props> = ({ tipo, tarefas, setTarefas }) => {
             return
         }
 
+        if (!data) {
+            return
+        }
+
         const novaTarefa: ITarefa = {
+            id: Date.now(),
+            data: data,
             tarefa: task,
-            data: new Date(),
             concluida: false
         }
 
@@ -42,7 +49,7 @@ const Adicionar: React.FC<Props> = ({ tipo, tarefas, setTarefas }) => {
             <p className="text-2xl items-start mb-5">Adicionar {tipo}</p>
             <div className="flex flex-row gap-3 items-center">
                 <Input type="text" placeholder="Nome" onChange={handleChangeInput} value={task} />
-                <Calendar22 />
+                <Calendar22 onDate={(date) => setData(date)} />
                 <Button variant="outline" size="icon" className="cursor-pointer" onClick={handleAddTarefaList}>
                     <IoAddCircle />
                 </Button>
