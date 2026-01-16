@@ -3,7 +3,7 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { Button } from "@/components/ui/button"
 import { Card, } from "@/components/ui/card"
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Input } from "../ui/input";
 import Calendar22 from "../Calendar22";
 import { FaCheckCircle } from "react-icons/fa";
@@ -78,4 +78,4 @@ const Tarefa: React.FC<ITarefa> = ({ tarefa, data: dataInicial, concluida, id, o
     )
 }
 
-export default Tarefa
+export default memo(Tarefa)
