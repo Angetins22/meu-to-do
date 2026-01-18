@@ -18,7 +18,7 @@ function App() {
 
     <div className='bg-background w-screen h-screen flex justify-center pt-5 pb-5'>
       <div className='max-w-5xl h-full w-full'>
-        <Usuario />
+        {location.pathname !== '/login' && <Usuario />}
         {location.pathname !== '/login' && < Nav />}
         <Routes >
           <Route path="/" element={<Home />} />
@@ -32,5 +32,6 @@ function App() {
     </div >
   )
 }
+
 
 export default App

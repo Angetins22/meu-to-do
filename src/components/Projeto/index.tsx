@@ -1,6 +1,6 @@
 
 import { Button } from '../ui/button'
-import { FaArrowDown } from "react-icons/fa";
+import { FaArrowDown, FaCheckCircle } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { IoIosColorPalette } from "react-icons/io";
@@ -25,28 +25,30 @@ interface Props {
 const Projeto: React.FC<Props> = ({ nome, data, concluida, expandido }) => {
     return (
         <aside>
-            <Card className="flex flex-row items-center gap-4 p-5">
-                <div className="flex flex-1 flex-row items-center justify-between">
-                    <Button variant="outline" size="icon" className=" p-3 cursor-pointer border border-black">
-                        <FaArrowDown />
-                    </Button>
-                    <p className="text-xl flex-1 ml-3">{nome}</p>
-                    <p className="text-xl ">{data.toTimeString()}</p>
-                    {concluida}
+            <Card className="flex flex-col  p-5">
+                <div className='flex flex-row gap-7'>
+                    <div className="flex flex-1 flex-row items-center justify-between">
+                        <Button variant="outline" size="icon" className=" p-3 cursor-pointer">
+                            <FaArrowDown />
+                        </Button>
+                        <p className="text-xl flex-1 ml-3">{nome}</p>
+                        <p className="text-xl  flex-1">{data.toLocaleDateString()}</p>
+                        {concluida}
+                    </div>
+                    <div className="flex items-end justify-between">
+                        <Button variant="ghost" size="icon" className="ml-2 mr-2 cursor-pointer"><FaCheckCircle /></Button>
+                        <Button variant="ghost" size="icon" className="cursor-pointer ">
+                            <IoIosColorPalette />
+                        </Button>
+                        <Button variant="ghost" size="icon" className="cursor-pointer ">
+                            <MdEdit />
+                        </Button>
+                        <Button variant="ghost" size="icon" className="cursor-pointer ">
+                            <MdDelete />
+                        </Button>
+                    </div>
+                    {expandido}
                 </div>
-                <div className="flex items-end justify-between">
-                    <Button variant="ghost" size="icon" className="ml-2 mr-2 cursor-pointer">completar</Button>
-                    <Button variant="ghost" size="icon" className="cursor-pointer ">
-                        <IoIosColorPalette />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="cursor-pointer ">
-                        <MdEdit />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="cursor-pointer ">
-                        <MdDelete />
-                    </Button>
-                </div>
-                {expandido}
                 <Adicionar tipo='tarefa ao projeto' />
             </Card>
         </aside>
