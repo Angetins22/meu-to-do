@@ -13,9 +13,7 @@ const TarefasCompletadas: React.FC = () => {
     return (
         <>
 
-            <div className="p-6 space-y-4">
-                <Tarefa tarefa="Teste" data={new Date()} concluida />
-            </div>
+
         </>
     )
 }

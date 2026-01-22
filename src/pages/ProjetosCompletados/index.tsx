@@ -10,12 +10,12 @@ import { MdOutlineFollowTheSigns } from "react-icons/md"
 import BotaoSair from "@/components/BotaoSair"
 
 const ProjetosCompletados: React.FC = () => {
+
+
+
     return (
-        <aside>
-            <div className="p-6 space-y-4">
-                <Projeto nome="Projeto" data={new Date()} concluida cor="azul" expandido />
-            </div>
-        </aside>
+        <>
+        </>
     )
 }
 
