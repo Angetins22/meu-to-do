@@ -3,47 +3,46 @@ import Adicionar, { TIPO } from '@/components/Adicionar'
 import { useState } from 'react'
 import type { ITarefa } from '@/components/Tarefa'
 import Tarefa from '@/components/Tarefa'
+import { useTarefas } from '@/contexts/TarefasContext'
+
 
 
 
 const Home: React.FC = () => {
+    const { tarefas, setTarefas, onDeleteTarefa, onCheckTarefa, onEditTarefa } = useTarefas()
 
-
-    const [tarefas, setTarefas] = useState<ITarefa[]>([])
-
-    const onCheck = (id: number) => {
-        setTarefas(tarefas.map(tarefa =>
-            tarefa.id === id
-                ? { ...tarefa, concluida: !tarefa.concluida }
-                : tarefa
-        ))
-    }
-
-    const onDelete = (id: number) => {
-        setTarefas(tarefas.filter(tarefa => {
-            return tarefa.id !== id
-        }))
-    }
-
-    const onEdit = (id: number, tarefa: string, data: Date) => {
-        setTarefas(tarefas.map(tarefA =>
-            tarefA.id === id ? { ...tarefA, tarefa, data } : tarefA
-        ))
-    }
+    // Filtra apenas tarefas NÃO completadas
+    const tarefasAtivas = tarefas.filter(t => !t.concluida)
 
     return (
         <>
             <div className="p-6 space-y-4">
-                <Adicionar tipo={TIPO.TAREFA} onAdicionar={item => 'tarefa' in item && setTarefas([...tarefas, item])} />
+                <h1 className="text-2xl font-bold mb-4">Tarefas</h1>
+                <Adicionar
+                    tipo={TIPO.TAREFA}
+                    onAdicionar={item => 'tarefa' in item && setTarefas([...tarefas, item])}
+                />
+            </div>
 
-                <ul>
-                    {tarefas.map(({ id, tarefa, data, concluida }) => {
-                        return <Tarefa key={id} id={id} tarefa={tarefa} data={data} concluida={concluida} onCheck={onCheck} onDelete={onDelete} onEdit={onEdit} />
-                    })}
-                </ul>
+            <div className="px-6">
+                {tarefasAtivas.length === 0 ?
+                    <p className="text-gray-500 text-center mt-8">
+                        Nenhuma tarefa ativa. Adicione uma nova tarefa!
+                    </p>
+                    :
+                    <ul>
+                        {tarefasAtivas.map(({ id, tarefa, data, concluida }) => {
+                            return <Tarefa
+                                key={id} id={id} tarefa={tarefa} data={data} concluida={concluida} onCheck={onCheckTarefa}
+                                onDelete={onDeleteTarefa} onEdit={onEditTarefa} dentroDoProjeto={false}
+                            />
+                        })}
+                    </ul>
+                }
             </div>
         </>
     )
 }
+
 
 export default Home

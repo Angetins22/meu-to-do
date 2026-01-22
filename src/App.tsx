@@ -8,6 +8,8 @@ import ProjetosCompletados from './pages/ProjetosCompletados'
 import TarefasCompletadas from './pages/TarefasCompletadas'
 import Nav from './components/Nav'
 import Usuario from './components/Usuario'
+import { ProjetosProvider } from './contexts/ProjetosContext'
+import { TarefasProvider } from './contexts/TarefasContext'
 
 
 function App() {
@@ -20,14 +22,18 @@ function App() {
       <div className='max-w-5xl h-full w-full'>
         {location.pathname !== '/login' && <Usuario />}
         {location.pathname !== '/login' && < Nav />}
-        <Routes >
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path='/projetos' element={<Projetos />} />
-          <Route path='/projetos-completados' element={<ProjetosCompletados />} />
-          <Route path='/tarefas-completadas' element={<TarefasCompletadas />} />
-        </Routes >
+        <ProjetosProvider>
+          <TarefasProvider>
+            <Routes >
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/home" element={<Home />} />
+              <Route path='/projetos' element={<Projetos />} />
+              <Route path='/projetos-completados' element={<ProjetosCompletados />} />
+              <Route path='/tarefas-completadas' element={<TarefasCompletadas />} />
+            </Routes >
+          </TarefasProvider>
+        </ProjetosProvider>
       </div>
     </div >
   )
