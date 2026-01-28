@@ -10,16 +10,19 @@ import Nav from './components/Nav'
 import Usuario from './components/Usuario'
 import { ProjetosProvider } from './contexts/ProjetosContext'
 import { TarefasProvider } from './contexts/TarefasContext'
-
+import { Button } from './components/ui/button'
+import { FirebaseController } from './controllers'
 
 function App() {
 
   const location = useLocation()
 
+  FirebaseController.deleteTarefa('wqdqwd')
+
   return (
 
     <div className='bg-background w-screen h-screen flex justify-center pt-5 pb-5'>
-      <div className='max-w-5xl h-full w-full'>
+      <div className='flex flex-col max-w-5xl h-full w-full'>
         {location.pathname !== '/login' && <Usuario />}
         {location.pathname !== '/login' && < Nav />}
         <ProjetosProvider>

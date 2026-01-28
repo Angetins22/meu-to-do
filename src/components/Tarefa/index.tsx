@@ -6,11 +6,10 @@ import { Card, } from "@/components/ui/card"
 import { memo, useState } from "react";
 import { Input } from "../ui/input";
 import Calendar22 from "../Calendar22";
-import { FaCheck, FaCheckCircle } from "react-icons/fa";
-import { Separator } from "@radix-ui/react-separator";
+import { FaCheck } from "react-icons/fa";
 
 export interface ITarefa {
-    id: number
+    id: string
     tarefa: string
     data: Date
     concluida: boolean
@@ -18,9 +17,9 @@ export interface ITarefa {
 }
 
 interface Props extends ITarefa {
-    onCheck: (id: number) => void
-    onDelete: (id: number) => void
-    onEdit: (id: number, novoTexto: string, data: Date) => void
+    onCheck: (id: string) => void
+    onDelete: (id: string) => void
+    onEdit: (id: string, novoTexto: string, data: Date) => void
 }
 
 enum MODO {
