@@ -6,7 +6,7 @@ import { useProjetos } from "@/contexts/ProjetosContext"
 import { useState } from "react"
 
 const Projetos: React.FC = () => {
-    const { projetos, setProjetos, onDelete, onCheck, onEdit } = useProjetos()
+    const { projetos, setProjetos, onDelete, onCheck, onEdit, adicionarProjeto } = useProjetos()
 
     // Filtra apenas projetos NÃO completados
     const projetosAtivos = projetos.filter(p => !p.concluidaP)
@@ -15,7 +15,9 @@ const Projetos: React.FC = () => {
         <>
             <div className="p-6 space-y-4">
                 <h1 className="text-2xl font-bold mb-4">Projetos</h1>
-                <Adicionar tipo={TIPO.PROJETO} onAdicionar={item => 'nome' in item && setProjetos([...projetos, item])} />
+                <Adicionar tipo={TIPO.PROJETO} onAdicionar={item => {
+                    if ('nome' in item) adicionarProjeto(item)
+                }} />
             </div>
 
 
@@ -25,7 +27,8 @@ const Projetos: React.FC = () => {
                 <ul>
                     {projetosAtivos.map(({ id, nome, data, concluidaP, tarefas, cor }) => {
                         return <Projeto key={id} id={id} nome={nome} data={data} concluidaP={concluidaP}
-                            expandido={true} onCheck={onCheck} onDelete={onDelete} onEdit={onEdit} tarefas={tarefas} cor={cor} />
+                            expandido={true} onCheck={onCheck} onDelete={onDelete}
+                            onEdit={onEdit} tarefas={tarefas} cor={cor} />
                     })}
                 </ul>
             }

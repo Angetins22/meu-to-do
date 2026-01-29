@@ -25,7 +25,7 @@ import { FaCheck } from "react-icons/fa";
 
 
 export interface IProjeto {
-    id: number
+    id: string
     nome: string
     data: Date
     concluidaP: boolean
@@ -35,9 +35,9 @@ export interface IProjeto {
 }
 
 interface Props extends IProjeto {
-    onDelete: (id: number) => void
-    onEdit: (id: number, novoTexto: string, data: Date, cor: string) => void
-    onCheck: (id: number) => void
+    onDelete: (id: string) => void
+    onEdit: (id: string, novoTexto: string, data: Date, cor: string) => void
+    onCheck: (id: string) => void
 }
 
 enum MODO {
@@ -62,7 +62,7 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
     }
 
 
-    const onCheck1 = (id: number) => {
+    const onCheck1 = (id: string) => {
         setTarefas(tarefas.map(tarefa =>
             tarefa.id === id
                 ? { ...tarefa, concluida: !tarefa.concluida }
@@ -70,13 +70,13 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
         ))
     }
 
-    const onDelete1 = (id: number) => {
+    const onDelete1 = (id: string) => {
         setTarefas(tarefas.filter(tarefa => {
             return tarefa.id !== id
         }))
     }
 
-    const onEdit1 = (id: number, tarefa: string, data: Date) => {
+    const onEdit1 = (id: string, tarefa: string, data: Date) => {
         setTarefas(tarefas.map(tarefA =>
             tarefA.id === id ? { ...tarefA, tarefa, data } : tarefA
         ))

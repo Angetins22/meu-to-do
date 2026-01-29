@@ -8,7 +8,8 @@ import { Spinner } from "@/components/ui/spinner"
 
 
 const Home: React.FC = () => {
-    const { tarefas, onDeleteTarefa: _onDeleteTarefa, onCheckTarefa: _onCheckTarefa, onEditTarefa: _onEditTarefa, adicionarTarefa: _adicionarTarefa, carregando, erro, carregarTarefas } = useTarefas()
+    const { tarefas, onDeleteTarefa: _onDeleteTarefa, onCheckTarefa: _onCheckTarefa,
+        onEditTarefa: _onEditTarefa, adicionarTarefa: _adicionarTarefa, carregando, erro, carregarTarefas } = useTarefas()
 
     const tarefasAtivas = tarefas.filter(t => !t.concluida)
 
