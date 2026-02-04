@@ -1,7 +1,10 @@
-import BotaoSair from "../BotaoSair"
+
+import BotaoSair from "../BotaoSair";
 
 
 const Usuario: React.FC = () => {
+
+
     return (
         <>
             <div className='flex flex-row justify-between items-center mb-5'>

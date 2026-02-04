@@ -12,12 +12,16 @@ import { ProjetosProvider } from './contexts/ProjetosContext'
 import { TarefasProvider } from './contexts/TarefasContext'
 import { Button } from './components/ui/button'
 import { FirebaseController } from './controllers'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { useEffect } from 'react'
+import useUser from './hooks/useUser'
+
 
 function App() {
 
   const location = useLocation()
 
-  FirebaseController.deleteTarefa('wqdqwd')
+  const user = useUser()
 
   return (
 
@@ -28,12 +32,21 @@ function App() {
         <ProjetosProvider>
           <TarefasProvider>
             <Routes >
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/home" element={<Home />} />
-              <Route path='/projetos' element={<Projetos />} />
-              <Route path='/projetos-completados' element={<ProjetosCompletados />} />
-              <Route path='/tarefas-completadas' element={<TarefasCompletadas />} />
+              {user === null &&
+                <>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/" element={<Login />} />
+                </>
+              }
+              {user !== null &&
+                <>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/home" element={<Home />} />
+                  <Route path='/projetos' element={<Projetos />} />
+                  <Route path='/projetos-completados' element={<ProjetosCompletados />} />
+                  <Route path='/tarefas-completadas' element={<TarefasCompletadas />} />
+                </>
+              }
             </Routes >
           </TarefasProvider>
         </ProjetosProvider>

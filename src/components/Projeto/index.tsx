@@ -21,8 +21,13 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { FaCheck } from "react-icons/fa";
-
-
+import { createTarefaP, deleteTarefaP, getProjetos, updateTarefaP } from '@/controllers/ProjetoController';
+import { PiCaretRightLight } from "react-icons/pi";
+import { PiCaretDownBold } from "react-icons/pi";
+import { RxCaretRight } from "react-icons/rx";
+import { PiCaretRightThin } from "react-icons/pi";
+import { PiCaretDownThin } from "react-icons/pi";
+import { CiUndo } from "react-icons/ci";
 
 export interface IProjeto {
     id: string
@@ -38,6 +43,8 @@ interface Props extends IProjeto {
     onDelete: (id: string) => void
     onEdit: (id: string, novoTexto: string, data: Date, cor: string) => void
     onCheck: (id: string) => void
+    onEditExpandido: (id: string) => void
+    adicionarTarefaProjeto: (tarefa: ITarefa) => void
 }
 
 enum MODO {
@@ -46,13 +53,13 @@ enum MODO {
 }
 
 
-const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: concluidaP, expandido: expandidoInicial, id, cor, onCheck, onDelete, onEdit }) => {
+const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: concluidaP, expandido: expandidoInicial, id, cor, tarefas: tarefasInicial, onCheck, onDelete, onEdit, onEditExpandido: _onEditExpandido, adicionarTarefaProjeto: _adicionarTarefaProjeto }) => {
 
     const [modo, setModo] = useState(MODO.NORMAL)
     const [nomeProjeto, setNomeProjeto] = useState(nome)
     const [data, setData] = useState<undefined | Date>(dataInicial)
     const [expandido, setExpandido] = useState(expandidoInicial)
-    const [tarefas, setTarefas] = useState<ITarefa[]>([{ id: 1, tarefa: 'Test', data: new Date(), concluida: false }])
+    const [tarefas, setTarefas] = useState<ITarefa[]>(tarefasInicial)
 
     const onModo = () => {
         setModo(modo === MODO.NORMAL ? MODO.EDITANDO : MODO.NORMAL)
@@ -61,33 +68,65 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
         }
     }
 
-
-    const onCheck1 = (id: string) => {
-        setTarefas(tarefas.map(tarefa =>
-            tarefa.id === id
-                ? { ...tarefa, concluida: !tarefa.concluida }
-                : tarefa
-        ))
+    const adicionarTarefaProjeto = async (novaTarefa: Omit<ITarefa, 'id'>) => {
+        try {
+            const tarefaCriada = await createTarefaP(id, novaTarefa)
+            if (tarefaCriada) {
+                setTarefas([...tarefas, tarefaCriada])
+            }
+        } catch (e) {
+            console.log('erro ao adicionar tarefa: ', e)
+        }
     }
 
-    const onDelete1 = (id: string) => {
-        setTarefas(tarefas.filter(tarefa => {
-            return tarefa.id !== id
-        }))
+    const onCheck1 = async (tarefaId: string) => {
+        const tarefa = tarefas.find(tarefa => tarefa.id === tarefaId)
+        if (!tarefa) return
+
+        try {
+            await updateTarefaP(id, tarefaId, {
+                concluida: !tarefa.concluida
+            })
+            setTarefas(tarefas.map(t =>
+                t.id === tarefaId ? { ...t, concluida: !t.concluida } : t
+            ))
+        } catch (e) {
+            console.error('Erro ao marcar tarefa:', e)
+        }
+
     }
 
-    const onEdit1 = (id: string, tarefa: string, data: Date) => {
-        setTarefas(tarefas.map(tarefA =>
-            tarefA.id === id ? { ...tarefA, tarefa, data } : tarefA
-        ))
+    const onDelete1 = async (tarefaId: string) => {
+        try {
+            await deleteTarefaP(id, tarefaId)
+            setTarefas(tarefas.filter(tarefa => tarefa.id !== tarefaId))
+        } catch (e) {
+            console.error('Erro ao deletar tarefa:', e)
+        }
     }
+
+    const onEdit1 = async (tarefaId: string, tarefa: string, data: Date) => {
+        try {
+            await updateTarefaP(id, tarefaId, { tarefa, data })
+            setTarefas(tarefas.map(t =>
+                t.id === tarefaId ? { ...t, tarefa, data } : t
+            ))
+        } catch (e) {
+            console.error('Erro ao editar tarefa:', e)
+        }
+    }
+
     return (
         <aside>
             <Card className={`flex flex-col  p-5 mb-5 ${concluidaP ? 'bg-green-100 border-green-300' : ''} `} style={{ backgroundColor: cor }}>
                 <div className='flex flex-row gap-7'>
                     <div className="flex flex-1 flex-row items-center justify-between">
-                        <Button variant="ghost" size="icon" className=" p-3 cursor-pointer" onClick={() => setExpandido(!expandido)}>
-                            {expandido ? <FaArrowUp /> : <FaArrowDown />}
+                        <Button variant="ghost" size="icon" className=" p-3 cursor-pointer" onClick={() => {
+                            _onEditExpandido(id)
+                            setExpandido(!expandido)
+                        }
+                        }>
+                            {expandido ? <PiCaretDownThin /> : <PiCaretRightThin />}
                         </Button>
                         {modo === MODO.EDITANDO &&
                             <>
@@ -105,7 +144,7 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
                     <div className="flex items-end justify-between">
                         {modo === MODO.NORMAL &&
                             <>
-                                <Button variant="ghost" size="icon" className="ml-2 mr-2 cursor-pointer" onClick={() => onCheck(id)}><FaCheckCircle /></Button>
+                                <Button variant="ghost" size="icon" className="ml-2 mr-2 cursor-pointer" onClick={() => onCheck(id)}>{!concluidaP ? <FaCheckCircle /> : <CiUndo />}</Button>
                                 {!concluidaP &&
                                     <>
                                         <DropdownMenu>
@@ -118,6 +157,7 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
                                                     <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#ff3333')}>Vermelho</DropdownMenuItem>
                                                     <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#3973ac')}>Azul</DropdownMenuItem>
                                                     <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#ff80ff')}>Rosa</DropdownMenuItem>
+                                                    <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#ffffff')}>Branco</DropdownMenuItem>
                                                 </DropdownMenuGroup>
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem className='cursor-pointer' onClick={() => {
@@ -152,7 +192,9 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
                 {expandido &&
                     <>
                         {!concluidaP &&
-                            <Adicionar tipo={TIPO.TAREFA} onAdicionar={item => 'tarefa' in item && setTarefas([...tarefas, item])} />
+                            <Adicionar tipo={TIPO.TAREFA} onAdicionar={item => {
+                                if ('tarefa' in item) adicionarTarefaProjeto(item)
+                            }} />
                         }
 
                         <div>
