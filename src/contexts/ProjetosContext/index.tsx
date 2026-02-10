@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import type { IProjeto } from '@/components/Projeto'
 import { createProjeto, deleteProjeto, getProjetos, updateProjeto } from '@/controllers/ProjetoController'
+import { useUser } from '../UserContext'
 
 interface ProjetosContextType {
     projetos: IProjeto[]
@@ -23,9 +24,12 @@ export const ProjetosProvider = ({ children }: { children: ReactNode }) => {
     const [projetos, setProjetos] = useState<IProjeto[]>([])
     const [carregando, setCarregando] = useState(true)
     const [erro, setErro] = useState(false)
+    const user = useUser()
+    const userId = user?.uid
 
     const fetchProjetosFirebase = async () => {
-        const ProjetosFirebase = await getProjetos()
+        if (!userId) return console.log('userId indefinido')
+        const ProjetosFirebase = await getProjetos(userId)
         setProjetos(ProjetosFirebase)
     }
 
@@ -46,24 +50,26 @@ export const ProjetosProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         carregarProjetos()
-    }, [])
+    }, [userId])
 
     const adicionarProjeto = async (novoProjeto: Omit<IProjeto, 'id'>) => {
+        if (!userId) return
         console.log('dados projeto: ', novoProjeto)
-        await createProjeto(novoProjeto)
+        await createProjeto(userId, novoProjeto)
         fetchProjetosFirebase()
     }
 
     const onDelete = async (id: string) => {
-        await deleteProjeto(id)
+        if (!userId) return
+        await deleteProjeto(id, userId)
         fetchProjetosFirebase()
     }
 
     const onCheck = async (id: string) => {
+        if (!userId) return
         const projeto = projetos.find(projeto => projeto.id === id)
         if (!projeto) return
-
-        await updateProjeto({
+        await updateProjeto(userId, {
             id,
             concluidaP: !projeto.concluidaP
         })
@@ -71,10 +77,11 @@ export const ProjetosProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const onEditExpandido = async (id: string) => {
+        if (!userId) return
         const projeto = projetos.find(projeto => projeto.id === id)
         if (!projeto) return
 
-        await updateProjeto({
+        await updateProjeto(userId, {
             id,
             expandido: !projeto.expandido
         })
@@ -82,7 +89,8 @@ export const ProjetosProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const onEdit = async (id: string, nome: string, data: Date, cor: string) => {
-        await updateProjeto({
+        if (!userId) return
+        await updateProjeto(userId, {
             id,
             nome,
             data,

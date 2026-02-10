@@ -22,8 +22,8 @@ export const getTarefa = async (id: string): Promise<ITarefa | null> => {
     return null
 }
 
-export const getTarefas = async (): Promise<ITarefa[]> => {
-    const querySnapshot = await getDocs(collection(firebase, 'tarefas'))
+export const getTarefas = async (userId: string): Promise<ITarefa[]> => {
+    const querySnapshot = await getDocs(collection(firebase, `users/${userId}/tarefas`))
     const tarefas: ITarefa[] = []
 
     querySnapshot.forEach((doc) => {
@@ -40,9 +40,9 @@ export const getTarefas = async (): Promise<ITarefa[]> => {
 }
 
 type TarefaUpdate = Partial<Omit<ITarefa, 'id'>> & { id: string }
-export const updateTarefa = async (tarefa: TarefaUpdate): Promise<void> => {
+export const updateTarefa = async (userId: string, tarefa: TarefaUpdate): Promise<void> => {
     try {
-        const docRef = doc(firebase, "tarefas", tarefa.id);
+        const docRef = doc(firebase, `users/${userId}/tarefas`, tarefa.id);
         await updateDoc(docRef, {
             ...tarefa
         });
@@ -53,9 +53,9 @@ export const updateTarefa = async (tarefa: TarefaUpdate): Promise<void> => {
 }
 
 type TarefaCreate = Omit<ITarefa, 'id'>
-export const createTarefa = async (tarefa: TarefaCreate): Promise<ITarefa | void> => {
+export const createTarefa = async (userId: string, tarefa: TarefaCreate): Promise<ITarefa | void> => {
     try {
-        const docRef = await addDoc(collection(firebase, "tarefas"), {
+        const docRef = await addDoc(collection(firebase, `users/${userId}/tarefas`), {
             tarefa: tarefa.tarefa,
             data: tarefa.data,
             concluida: tarefa.concluida ?? false,
@@ -74,9 +74,9 @@ export const createTarefa = async (tarefa: TarefaCreate): Promise<ITarefa | void
     }
 }
 
-export const deleteTarefa = async (id: string): Promise<void> => {
+export const deleteTarefa = async (userId: string, id: string): Promise<void> => {
     try {
-        await deleteDoc(doc(firebase, "tarefas", id));
+        await deleteDoc(doc(firebase, `users/${userId}/tarefas`, id));
         console.log("Document deleted with ID: ", id);
     } catch (error) {
         console.error("Error deleting document: ", error);

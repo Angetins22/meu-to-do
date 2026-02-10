@@ -46,6 +46,8 @@ const Tarefa: React.FC<Props> = ({ tarefa, data: dataInicial, concluida, id, onC
 
     return (
         <>
+
+
             <Card className={`mb-4 flex flex-row items-center justify-between gap-4 p-5 transition-colors ${dentroDoProjeto ? 'border-0' : ''} ${concluida ? 'bg-green-100 border-green-300' : ''
                 }`} >
                 <div className="flex flex-1 flex-row items-center justify-between">

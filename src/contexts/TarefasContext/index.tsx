@@ -2,6 +2,7 @@ import type { ITarefa } from '@/components/Tarefa'
 import { createTarefa, deleteTarefa, getTarefas, updateTarefa } from '@/controllers/TarefaController'
 import { sleep } from '@/utils'
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { useUser } from '../UserContext'
 
 interface TarefasContextType {
     tarefas: ITarefa[]
@@ -22,9 +23,12 @@ export const TarefasProvider = ({ children }: { children: ReactNode }) => {
     const [tarefas, setTarefas] = useState<ITarefa[]>([])
     const [carregando, setCarregando] = useState(true)
     const [erro, setErro] = useState(false)
+    const user = useUser()
+    const userId = user?.uid
 
     const fetchTarefasFirebase = async () => {
-        const tarefasFirebase = await getTarefas()
+        if (!userId) return
+        const tarefasFirebase = await getTarefas(userId)
         setTarefas(tarefasFirebase)
     }
 
@@ -47,24 +51,27 @@ export const TarefasProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         carregarTarefas()
-    }, [])
+    }, [userId])
 
     const adicionarTarefa = async (novaTarefa: Omit<ITarefa, 'id'>) => {
+        if (!userId) return
         console.log('dados tarefa:', novaTarefa)
-        await createTarefa(novaTarefa)
+        await createTarefa(userId, novaTarefa)
         fetchTarefasFirebase()
     }
 
     const onDeleteTarefa = async (id: string) => {
-        await deleteTarefa(id)
+        if (!userId) return
+        await deleteTarefa(userId, id)
         fetchTarefasFirebase()
     }
 
     const onCheckTarefa = async (id: string) => {
+        if (!userId) return
         const tarefa = tarefas.find(tarefa => tarefa.id === id)
         if (!tarefa) return
 
-        await updateTarefa({
+        await updateTarefa(userId, {
             id: id,
             concluida: !tarefa.concluida
         })
@@ -73,7 +80,8 @@ export const TarefasProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const onEditTarefa = async (id: string, tarefaTexto: string, data: Date) => {
-        await updateTarefa({
+        if (!userId) return
+        await updateTarefa(userId, {
             id: id,
             tarefa: tarefaTexto,
             data

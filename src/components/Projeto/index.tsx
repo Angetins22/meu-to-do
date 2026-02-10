@@ -28,6 +28,7 @@ import { RxCaretRight } from "react-icons/rx";
 import { PiCaretRightThin } from "react-icons/pi";
 import { PiCaretDownThin } from "react-icons/pi";
 import { CiUndo } from "react-icons/ci";
+import { useUser } from '@/contexts/UserContext';
 
 export interface IProjeto {
     id: string
@@ -60,6 +61,8 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
     const [data, setData] = useState<undefined | Date>(dataInicial)
     const [expandido, setExpandido] = useState(expandidoInicial)
     const [tarefas, setTarefas] = useState<ITarefa[]>(tarefasInicial)
+    const user = useUser()
+    const userId = user?.uid
 
     const onModo = () => {
         setModo(modo === MODO.NORMAL ? MODO.EDITANDO : MODO.NORMAL)
@@ -69,8 +72,9 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
     }
 
     const adicionarTarefaProjeto = async (novaTarefa: Omit<ITarefa, 'id'>) => {
+        if (!userId) return console.log('userId indefinido')
         try {
-            const tarefaCriada = await createTarefaP(id, novaTarefa)
+            const tarefaCriada = await createTarefaP(userId, id, novaTarefa)
             if (tarefaCriada) {
                 setTarefas([...tarefas, tarefaCriada])
             }
@@ -80,11 +84,12 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
     }
 
     const onCheck1 = async (tarefaId: string) => {
+        if (!userId) return console.log('userId indefinido')
         const tarefa = tarefas.find(tarefa => tarefa.id === tarefaId)
         if (!tarefa) return
 
         try {
-            await updateTarefaP(id, tarefaId, {
+            await updateTarefaP(userId, id, tarefaId, {
                 concluida: !tarefa.concluida
             })
             setTarefas(tarefas.map(t =>
@@ -97,8 +102,9 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
     }
 
     const onDelete1 = async (tarefaId: string) => {
+        if (!userId) return console.log('userId indefinido')
         try {
-            await deleteTarefaP(id, tarefaId)
+            await deleteTarefaP(userId, id, tarefaId)
             setTarefas(tarefas.filter(tarefa => tarefa.id !== tarefaId))
         } catch (e) {
             console.error('Erro ao deletar tarefa:', e)
@@ -106,8 +112,9 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
     }
 
     const onEdit1 = async (tarefaId: string, tarefa: string, data: Date) => {
+        if (!userId) return console.log('userId indefinido')
         try {
-            await updateTarefaP(id, tarefaId, { tarefa, data })
+            await updateTarefaP(userId, id, tarefaId, { tarefa, data })
             setTarefas(tarefas.map(t =>
                 t.id === tarefaId ? { ...t, tarefa, data } : t
             ))

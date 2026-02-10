@@ -12,9 +12,9 @@ type SetProp<T, K extends keyof T, V> = {
 }
 type IProjetoFirebase = SetProp<SetProp<IProjeto, 'tarefas', SetProp<ITarefa, 'data', Timestamp>[]>, 'data', Timestamp>
 
-export const getProjetos = async (): Promise<IProjeto[]> => {
+export const getProjetos = async (userId: string): Promise<IProjeto[]> => {
 
-    const projetosRef = collection(firebase, "projetos") as CollectionReference<IProjetoFirebase>
+    const projetosRef = collection(firebase, `users/${userId}/projetos`) as CollectionReference<IProjetoFirebase>
     const querySnapshot = await getDocs(projetosRef)
     const projetos: IProjeto[] = []
 
@@ -34,9 +34,9 @@ export const getProjetos = async (): Promise<IProjeto[]> => {
 }
 
 type ProjetoCreate = Omit<IProjeto, 'id'>
-export const createProjeto = async (projeto: ProjetoCreate): Promise<IProjeto | void> => {
+export const createProjeto = async (userId: string, projeto: ProjetoCreate): Promise<IProjeto | void> => {
 
-    const docRef = await addDoc(collection(firebase, "projetos"), {
+    const docRef = await addDoc(collection(firebase, `users/${userId}/projetos`), {
         nome: projeto.nome,
         data: projeto.data,
         concluidaP: projeto.concluidaP ?? false,
@@ -45,6 +45,7 @@ export const createProjeto = async (projeto: ProjetoCreate): Promise<IProjeto | 
         tarefas: projeto.tarefas
     });
     console.log("Document written with ID: ", docRef.id);
+    console.log('id do usuario: ', userId)
     return {
         id: docRef.id,
         nome: projeto.nome,
@@ -57,14 +58,14 @@ export const createProjeto = async (projeto: ProjetoCreate): Promise<IProjeto | 
 
 }
 
-export const deleteProjeto = async (id: string): Promise<void> => {
-    await deleteDoc(doc(firebase, 'projetos', id))
+export const deleteProjeto = async (userId: string, id: string): Promise<void> => {
+    await deleteDoc(doc(firebase, `users/${userId}/projetos`, id))
     console.log('Document deleted with ID: ', id)
 }
 
 type ProjetoUpdate = Partial<Omit<IProjeto, 'id'>> & { id: string }
-export const updateProjeto = async (projeto: ProjetoUpdate): Promise<void> => {
-    const docRef = doc(firebase, 'projetos', projeto.id)
+export const updateProjeto = async (userId: string, projeto: ProjetoUpdate): Promise<void> => {
+    const docRef = doc(firebase, `users/${userId}/projetos`, projeto.id)
     await updateDoc(docRef, {
         ...projeto
     })
@@ -72,9 +73,9 @@ export const updateProjeto = async (projeto: ProjetoUpdate): Promise<void> => {
 }
 
 type TarefaCreate = Omit<ITarefa, 'id'>
-export const createTarefaP = async (projetoId: string, tarefa: TarefaCreate): Promise<ITarefa | void> => {
+export const createTarefaP = async (userId: string, projetoId: string, tarefa: TarefaCreate): Promise<ITarefa | void> => {
 
-    const projetoDocRef = doc(firebase, 'projetos', projetoId);
+    const projetoDocRef = doc(firebase, `users/${userId}/projetos`, projetoId);
     const projetoSnap = await getDoc(projetoDocRef);
 
     if (!projetoSnap.exists()) return
@@ -99,9 +100,9 @@ export const createTarefaP = async (projetoId: string, tarefa: TarefaCreate): Pr
     return novaTarefa
 }
 
-export const deleteTarefaP = async (projetoId: string, tarefaId: string): Promise<void> => {
+export const deleteTarefaP = async (userId: string, projetoId: string, tarefaId: string): Promise<void> => {
 
-    const projetoDocRef = doc(firebase, 'projetos', projetoId)
+    const projetoDocRef = doc(firebase, `users/${userId}/projetos`, projetoId)
     const projetoSnap = await getDoc(projetoDocRef)
 
     if (!projetoSnap.exists()) return
@@ -119,9 +120,9 @@ export const deleteTarefaP = async (projetoId: string, tarefaId: string): Promis
 }
 
 type TarefaUpdateP = Partial<Omit<ITarefa, 'id'>>
-export const updateTarefaP = async (projetoId: string, tarefaId: string, tarefa: TarefaUpdateP): Promise<void> => {
+export const updateTarefaP = async (userId: string, projetoId: string, tarefaId: string, tarefa: TarefaUpdateP): Promise<void> => {
 
-    const projetoDocRef = doc(firebase, 'projetos', projetoId)
+    const projetoDocRef = doc(firebase, `users/${userId}/projetos`, projetoId)
     const projetoSnap = await getDoc(projetoDocRef)
 
     if (!projetoSnap.exists()) return
