@@ -14,14 +14,17 @@ import { Button } from './components/ui/button'
 import { FirebaseController } from './controllers'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useEffect } from 'react'
-import useUser from './hooks/useUser'
+import useAuthState from './hooks/useAuthState'
+import { UserProvider, useUser } from './contexts/UserContext'
 
 
 function App() {
 
   const location = useLocation()
 
+  useAuthState()
   const user = useUser()
+
 
   return (
 

@@ -1,14 +1,18 @@
+
+import { UserContext } from "@/contexts/UserContext";
 import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Navigate, useNavigate } from "react-router";
 const auth = getAuth();
 
 
-
-const useUser = () => {
+const useAuthState = () => {
     const navigate = useNavigate()
 
-    const [user, setUser] = useState<User | null>(null)
+    const context = useContext(UserContext)
+
+    if (!context) return
+    const { setUser } = context
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -19,10 +23,10 @@ const useUser = () => {
                 setUser(null)
                 navigate('/login')
             }
-            console.log('usuario: ', user)
         });
     }, [])
-    return user
+
+
 }
 
-export default useUser
+export default useAuthState

@@ -15,8 +15,6 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 const Login: React.FC = () => {
     const navigate = useNavigate()
 
-
-
     const login = async () => {
         const provider = new GoogleAuthProvider();
         const auth = getAuth();
@@ -31,8 +29,6 @@ const Login: React.FC = () => {
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
             // ...
-            console.log(credential)
-            console.log(result)
             navigate('/home')
         } catch (error: any) {
             // Handle Errors here.
