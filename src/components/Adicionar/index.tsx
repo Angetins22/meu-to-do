@@ -52,12 +52,14 @@ const Adicionar: React.FC<Props> = ({ tipo, onAdicionar }) => {
     return (
         <aside className="w-full mb-10">
             <p className="text-2xl items-start mb-5">Adicionar {tipo === TIPO.TAREFA ? 'Tarefa' : 'Projeto'}</p>
-            <div className="flex flex-row gap-3 items-center">
-                <Input type="text" placeholder="Nome" onChange={handleChangeInput} value={nome} />
-                <Calendar22 dataInicial={data} onDate={(date) => setData(date)} />
-                <Button variant="outline" size="icon" className="cursor-pointer" onClick={handleAdd}>
-                    <IoAddCircle />
-                </Button>
+            <div className="flex flex-col md:flex-row gap-3 items-center">
+                <Input className="w-full" type="text" placeholder="Nome" onChange={handleChangeInput} value={nome} />
+                <div className="flex flex-row w-full md:w-auto gap-2 justify-between">
+                    <Calendar22 className='md:w-auto w-full ' dataInicial={data} onDate={(date) => setData(date)} />
+                    <Button variant="outline" size="icon" className="cursor-pointer" onClick={handleAdd}>
+                        <IoAddCircle />
+                    </Button>
+                </div>
             </div>
         </aside>
     )

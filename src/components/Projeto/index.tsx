@@ -125,75 +125,121 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
 
     return (
         <aside>
-            <Card className={`flex flex-col  p-5 mb-5 ${concluidaP ? 'bg-green-100 border-green-300' : ''} `} style={{ backgroundColor: cor }}>
-                <div className='flex flex-row gap-7'>
-                    <div className="flex flex-1 flex-row items-center justify-between">
-                        <Button variant="ghost" size="icon" className=" p-3 cursor-pointer" onClick={() => {
-                            _onEditExpandido(id)
-                            setExpandido(!expandido)
-                        }
-                        }>
+            <Card className={`flex flex-col  p-3 md:p-5 mb-5 ${concluidaP ? 'bg-green-100 border-green-300' : ''} `}
+                style={{ backgroundColor: cor }}>
+                <div className='flex flex-col md:flex-row gap-3 md:gap-7'>
+                    <div className="flex flex-1 flex-col md:flex-row items-start md:items-center gap-3 md:gap-4">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="p-2 md:p-3 cursor-pointer self-start"
+                            onClick={() => {
+                                _onEditExpandido(id)
+                                setExpandido(!expandido)
+                            }}
+                        >
                             {expandido ? <PiCaretDownThin /> : <PiCaretRightThin />}
                         </Button>
-                        {modo === MODO.EDITANDO &&
-                            <>
-                                <Input type="text" placeholder="Nome" onChange={event => setNomeProjeto(event.target.value)} value={nomeProjeto} />
+
+                        {modo === MODO.EDITANDO && (
+                            <div className="flex flex-col md:flex-row gap-2 md:gap-3 w-full">
+                                <Input
+                                    type="text"
+                                    placeholder="Nome"
+                                    onChange={event => setNomeProjeto(event.target.value)}
+                                    value={nomeProjeto}
+                                    className="w-full"
+                                />
                                 <Calendar22 onDate={(data) => setData(data)} dataInicial={data} />
-                            </>
-                        }
-                        {modo === MODO.NORMAL &&
-                            <>
-                                <p className="text-xl flex-1 ml-3">{nome}</p>
-                                <p className="text-xl  flex-1">{data?.toLocaleDateString('pt-BR') || '(Data não definida)'}</p>
-                            </>
-                        }
+                            </div>
+                        )}
+
+                        {modo === MODO.NORMAL && (
+                            <div className="flex flex-col md:flex-row w-full gap-2 md:gap-4">
+                                <p className="text-base md:text-xl flex-1">{nome}</p>
+                                <p className="text-sm md:text-xl">
+                                    {data?.toLocaleDateString('pt-BR') || '(Data não definida)'}
+                                </p>
+                            </div>
+                        )}
                     </div>
-                    <div className="flex items-end justify-between">
-                        {modo === MODO.NORMAL &&
+
+
+                    <div className="flex flex-wrap md:flex-nowrap items-center gap-1 md:gap-2 self-end md:self-auto">
+                        {modo === MODO.NORMAL && (
                             <>
-                                <Button variant="ghost" size="icon" className="ml-2 mr-2 cursor-pointer" onClick={() => onCheck(id)}>{!concluidaP ? <FaCheckCircle /> : <CiUndo />}</Button>
-                                {!concluidaP &&
-                                    <>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" className='cursor-pointer'><IoIosColorPalette /></Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent>
-                                                <DropdownMenuGroup>
-                                                    <DropdownMenuLabel>Cores</DropdownMenuLabel>
-                                                    <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#ff3333')}>Vermelho</DropdownMenuItem>
-                                                    <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#3973ac')}>Azul</DropdownMenuItem>
-                                                    <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#ff80ff')}>Rosa</DropdownMenuItem>
-                                                    <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#ffffff')}>Branco</DropdownMenuItem>
-                                                </DropdownMenuGroup>
-                                                <DropdownMenuSeparator />
-                                                <DropdownMenuItem className='cursor-pointer' onClick={() => {
-                                                    let cor = window.prompt("Qual a cor ?")
-                                                    if (cor !== null) onEdit(id, nome, dataInicial, cor)
-                                                }}>Custom</DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </>
-                                }
-                            </>
-                        }
-                        {!concluidaP &&
-                            <>
-                                <Button variant="ghost" size="icon" className="cursor-pointer " onClick={() => onModo()}>
-                                    {modo === MODO.EDITANDO &&
-                                        <FaCheck />
-                                    }
-                                    {modo === MODO.NORMAL &&
-                                        <MdEdit />
-                                    }
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="cursor-pointer"
+                                    onClick={() => onCheck(id)}
+                                >
+                                    {!concluidaP ? <FaCheckCircle /> : <CiUndo />}
                                 </Button>
-                                {modo === MODO.NORMAL &&
-                                    <Button variant="ghost" size="icon" className="cursor-pointer " onClick={() => onDelete(id)}>
+
+                                {!concluidaP && (
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className='cursor-pointer'
+                                            >
+                                                <IoIosColorPalette />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuLabel>Cores</DropdownMenuLabel>
+                                                <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#ff3333')}>
+                                                    Vermelho
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#3973ac')}>
+                                                    Azul
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#ff80ff')}>
+                                                    Rosa
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem className='cursor-pointer' onClick={() => onEdit(id, nome, dataInicial, '#ffffff')}>
+                                                    Branco
+                                                </DropdownMenuItem>
+                                            </DropdownMenuGroup>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem className='cursor-pointer' onClick={() => {
+                                                let cor = window.prompt("Qual a cor ?")
+                                                if (cor !== null) onEdit(id, nome, dataInicial, cor)
+                                            }}>
+                                                Custom
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                )}
+                            </>
+                        )}
+
+                        {!concluidaP && (
+                            <>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="cursor-pointer"
+                                    onClick={() => onModo()}
+                                >
+                                    {modo === MODO.EDITANDO ? <FaCheck /> : <MdEdit />}
+                                </Button>
+
+                                {modo === MODO.NORMAL && (
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="cursor-pointer"
+                                        onClick={() => onDelete(id)}
+                                    >
                                         <MdDelete />
                                     </Button>
-                                }
+                                )}
                             </>
-                        }
+                        )}
                     </div>
                 </div>
                 {expandido &&

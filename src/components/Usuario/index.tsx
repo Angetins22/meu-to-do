@@ -16,7 +16,8 @@ const Usuario: React.FC = () => {
 
     return (
         <>
-            <div className='flex flex-row justify-between items-center mb-5'>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <div className='flex flex-row justify-between items-center mb-5 '>
                 <div className="flex flex-row">
                     <Avatar className="mr-3">
                         <AvatarImage

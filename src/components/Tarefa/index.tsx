@@ -48,42 +48,61 @@ const Tarefa: React.FC<Props> = ({ tarefa, data: dataInicial, concluida, id, onC
         <>
 
 
-            <Card className={`mb-4 flex flex-row items-center justify-between gap-4 p-5 transition-colors ${dentroDoProjeto ? 'border-0' : ''} ${concluida ? 'bg-green-100 border-green-300' : ''
-                }`} >
-                <div className="flex flex-1 flex-row items-center justify-between">
-                    <Checkbox className="cursor-pointer mr-10" checked={concluida} onCheckedChange={() => onCheck(id)} />
-                    {modo === MODO.EDITANDO &&
-                        <>
-                            <Input type="text" placeholder="Nome" onChange={event => setNomeTarefa(event.target.value)} value={nomeTarefa} />
+            <Card className={`mb-4 flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-4 p-4 md:p-5 
+            transition-colors ${dentroDoProjeto ? 'border-0' : ''} 
+            ${concluida ? 'bg-green-100 border-green-300' : ''}`}>
+                <div className="flex flex-1 w-full flex-col md:flex-row items-start md:items-center gap-3 md:gap-4">
+                    <Checkbox
+                        className="cursor-pointer self-start md:self-auto"
+                        checked={concluida}
+                        onCheckedChange={() => onCheck(id)}
+                    />
+
+                    {modo === MODO.EDITANDO && (
+                        <div className="flex flex-col md:flex-row gap-2 md:gap-3 w-full">
+                            <Input
+                                type="text"
+                                placeholder="Nome"
+                                onChange={event => setNomeTarefa(event.target.value)}
+                                value={nomeTarefa}
+                                className="w-full"
+                            />
                             <Calendar22 onDate={(data) => setData(data)} dataInicial={data} />
-                        </>
-                    }
-                    {modo === MODO.NORMAL &&
-                        <>
-                            <p className="text-xl flex-1">{tarefa} </p>
-                            <p className="text-xl flex-1">{data?.toLocaleDateString('pt-BR') || '(Data não definida)'}</p>
-                        </>
-                    }
+                        </div>
+                    )}
+
+                    {modo === MODO.NORMAL && (
+                        <div className="flex flex-col md:flex-row w-full gap-2 md:gap-4">
+                            <p className="text-base md:text-xl flex-1">{tarefa}</p>
+                            <p className="text-sm md:text-xl">
+                                {data?.toLocaleDateString('pt-BR') || '(Data não definida)'}
+                            </p>
+                        </div>
+                    )}
                 </div>
-                {concluida}
-                <div className="w-1/10">
-                    {!concluida &&
+                <div className="flex gap-2 self-end md:self-auto">
+                    {!concluida && (
                         <>
-                            <Button variant="ghost" size="icon" className="cursor-pointer mr-2" onClick={() => onModo()}>
-                                {modo === MODO.EDITANDO &&
-                                    <FaCheck />
-                                }
-                                {modo === MODO.NORMAL &&
-                                    <MdEdit />
-                                }
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="cursor-pointer"
+                                onClick={() => onModo()}
+                            >
+                                {modo === MODO.EDITANDO ? <FaCheck /> : <MdEdit />}
                             </Button>
-                            {modo === MODO.NORMAL &&
-                                <Button variant="ghost" size="icon" className="cursor-pointer" onClick={() => onDelete(id)}>
+                            {modo === MODO.NORMAL && (
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="cursor-pointer"
+                                    onClick={() => onDelete(id)}
+                                >
                                     <MdDelete />
                                 </Button>
-                            }
+                            )}
                         </>
-                    }
+                    )}
                 </div>
             </Card>
         </>

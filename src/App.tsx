@@ -27,34 +27,36 @@ function App() {
 
 
   return (
-
-    <div className='bg-background w-screen h-screen flex justify-center pt-5 pb-5'>
-      <div className='flex flex-col max-w-5xl h-full w-full'>
-        {location.pathname !== '/login' && <Usuario />}
-        {location.pathname !== '/login' && < Nav />}
-        <ProjetosProvider>
-          <TarefasProvider>
-            <Routes >
-              {user === null &&
-                <>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/" element={<Login />} />
-                </>
-              }
-              {user !== null &&
-                <>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/home" element={<Home />} />
-                  <Route path='/projetos' element={<Projetos />} />
-                  <Route path='/projetos-completados' element={<ProjetosCompletados />} />
-                  <Route path='/tarefas-completadas' element={<TarefasCompletadas />} />
-                </>
-              }
-            </Routes >
-          </TarefasProvider>
-        </ProjetosProvider>
-      </div>
-    </div >
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <div className='bg-background w-full min-h-screen flex justify-center md:w-screen md:h-screen py-5 px-4 md:px-8'>
+        <div className='flex flex-col md:h-full w-full max-w-5xl'>
+          {location.pathname !== '/login' && <Usuario />}
+          {location.pathname !== '/login' && < Nav />}
+          <ProjetosProvider>
+            <TarefasProvider>
+              <Routes >
+                {user === null &&
+                  <>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/" element={<Login />} />
+                  </>
+                }
+                {user !== null &&
+                  <>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path='/projetos' element={<Projetos />} />
+                    <Route path='/projetos-completados' element={<ProjetosCompletados />} />
+                    <Route path='/tarefas-completadas' element={<TarefasCompletadas />} />
+                  </>
+                }
+              </Routes >
+            </TarefasProvider>
+          </ProjetosProvider>
+        </div>
+      </div >
+    </>
   )
 }
 

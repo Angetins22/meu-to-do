@@ -16,20 +16,21 @@ import {
 interface Props {
     onDate: (data: Date | undefined) => void
     dataInicial: Date | undefined
+    className?: string
 }
 
-const Calendar22: React.FC<Props> = ({ onDate, dataInicial }) => {
+const Calendar22: React.FC<Props> = ({ onDate, dataInicial, className = '' }) => {
     const [open, setOpen] = React.useState(false)
     const [date, setDate] = React.useState<Date | undefined>(dataInicial)
 
     return (
-        <div className="flex flex-col gap-3">
+        <div className={`flex flex-col gap-3 ${className}`} >
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <Button
                         variant="outline"
                         id="date"
-                        className="w-48 justify-between font-normal"
+                        className="md:w-48 w-full justify-between font-normal cursor-pointer "
                     >
                         {date ? date.toLocaleDateString() : "Selecionar data"}
                         <ChevronDownIcon />
@@ -48,7 +49,7 @@ const Calendar22: React.FC<Props> = ({ onDate, dataInicial }) => {
                     />
                 </PopoverContent>
             </Popover>
-        </div>
+        </div >
     )
 }
 
