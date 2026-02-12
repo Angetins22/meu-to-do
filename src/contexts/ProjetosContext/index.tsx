@@ -89,14 +89,18 @@ export const ProjetosProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const onEdit = async (id: string, nome: string, data: Date, cor: string) => {
+        console.log('1')
         if (!userId) return
+        console.log('2')
         await updateProjeto(userId, {
             id,
             nome,
             data,
             cor
         })
+        console.log('3')
         fetchProjetosFirebase()
+        console.log('4')
     }
 
     return (

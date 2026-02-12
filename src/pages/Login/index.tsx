@@ -65,7 +65,7 @@ const Login: React.FC = () => {
 
     return (
         <div className="h-full w-full flex justify-center items-center flex-col">
-            <h1 className="mb-5">Boa organização</h1>
+            <h1 className="mb-5">Obrigado pela escolha e boa organização!!!</h1>
             <Card className="w-full max-w-sm">
                 <CardHeader>
                     <CardTitle>Logue em sua conta</CardTitle>
