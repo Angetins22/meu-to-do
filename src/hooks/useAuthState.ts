@@ -1,8 +1,8 @@
 
 import { UserContext } from "@/contexts/UserContext";
-import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
-import { useContext, useEffect, useState } from "react"
-import { Navigate, useNavigate } from "react-router";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useContext, useEffect } from "react"
+import { useNavigate } from "react-router";
 const auth = getAuth();
 
 

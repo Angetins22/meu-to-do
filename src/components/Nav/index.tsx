@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { Button } from "../ui/button"
 import { ButtonGroup } from "../ui/button-group"
 import { useLocation, useNavigate } from "react-router";
@@ -9,9 +9,6 @@ const Nav: React.FC = () => {
 
     const navigate = useNavigate()
 
-    const [cor, setCor] = useState(false)
-
-    const handleClick = () => setCor(!cor)
     const handleNavClick = (nav: string) => {
         navigate(nav)
 

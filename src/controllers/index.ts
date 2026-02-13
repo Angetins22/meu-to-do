@@ -1,9 +1,6 @@
 export * as FirebaseController from './TarefaController'
-
-import { doc, deleteDoc, query, where } from "firebase/firestore";
-import { addDoc, collection, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import type { ITarefa } from "@/components/Tarefa";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://support.google.com/firebase/answer/7015592

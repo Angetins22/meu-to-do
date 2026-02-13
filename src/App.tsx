@@ -1,4 +1,3 @@
-
 import './App.css'
 import { Route, Routes, useLocation } from 'react-router'
 import Home from './pages/Home'
@@ -10,12 +9,8 @@ import Nav from './components/Nav'
 import Usuario from './components/Usuario'
 import { ProjetosProvider } from './contexts/ProjetosContext'
 import { TarefasProvider } from './contexts/TarefasContext'
-import { Button } from './components/ui/button'
-import { FirebaseController } from './controllers'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { useEffect } from 'react'
 import useAuthState from './hooks/useAuthState'
-import { UserProvider, useUser } from './contexts/UserContext'
+import { useUser } from './contexts/UserContext'
 
 
 function App() {

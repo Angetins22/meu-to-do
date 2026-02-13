@@ -1,8 +1,7 @@
 
 import { useUser } from "@/contexts/UserContext";
 import BotaoSair from "../BotaoSair";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useState } from "react";
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
 
 const Usuario: React.FC = () => {
 

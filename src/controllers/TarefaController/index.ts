@@ -1,26 +1,8 @@
-import { doc, deleteDoc, query, where } from "firebase/firestore";
-import { addDoc, collection, getDocs, getFirestore, updateDoc } from "firebase/firestore";
-import { initializeApp } from "firebase/app";
+import { doc, deleteDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs, updateDoc } from "firebase/firestore";
 import type { ITarefa } from "@/components/Tarefa";
-import { firebase, FirebaseController } from "..";
+import { firebase } from "..";
 
-
-export const getTarefa = async (id: string): Promise<ITarefa | null> => {
-
-    const querySnapshot = await getDocs(collection(firebase, 'tarefas'), where('id', '==', true))
-
-    if (querySnapshot) {
-        const data = doc.data();
-        return {
-            id: querySnapshot.id,
-            tarefa: data.tarefa,
-            data: data.data.toDate(),
-            concluida: data.concluida,
-            dentroDoProjeto: data.dentroDoProjeto
-        }
-    }
-    return null
-}
 
 export const getTarefas = async (userId: string): Promise<ITarefa[]> => {
     const querySnapshot = await getDocs(collection(firebase, `users/${userId}/tarefas`))

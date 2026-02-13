@@ -1,6 +1,6 @@
 
 import { Button } from '../ui/button'
-import { FaArrowDown, FaArrowUp, FaCheckCircle, FaList } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { IoIosColorPalette } from "react-icons/io";
@@ -25,10 +25,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { FaCheck } from "react-icons/fa";
-import { createTarefaP, deleteTarefaP, getProjetos, updateTarefaP } from '@/controllers/ProjetoController';
-import { PiCaretRightLight } from "react-icons/pi";
-import { PiCaretDownBold } from "react-icons/pi";
-import { RxCaretRight } from "react-icons/rx";
+import { createTarefaP, deleteTarefaP, updateTarefaP } from '@/controllers/ProjetoController';
 import { PiCaretRightThin } from "react-icons/pi";
 import { PiCaretDownThin } from "react-icons/pi";
 import { CiUndo } from "react-icons/ci";
@@ -50,7 +47,6 @@ interface Props extends IProjeto {
     onEdit: (id: string, novoTexto: string, data: Date, cor: string) => void
     onCheck: (id: string) => void
     onEditExpandido: (id: string) => void
-    adicionarTarefaProjeto: (tarefa: ITarefa) => void
 }
 
 enum MODO {
@@ -59,7 +55,7 @@ enum MODO {
 }
 
 
-const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: concluidaP, expandido: expandidoInicial, id, cor, tarefas: tarefasInicial, onCheck, onDelete, onEdit, onEditExpandido: _onEditExpandido, adicionarTarefaProjeto: _adicionarTarefaProjeto }) => {
+const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: concluidaP, expandido: expandidoInicial, id, cor, tarefas: tarefasInicial, onCheck, onDelete, onEdit, onEditExpandido: _onEditExpandido }) => {
 
     const [modo, setModo] = useState(MODO.NORMAL)
     const [nomeProjeto, setNomeProjeto] = useState(nome)
@@ -197,7 +193,7 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
                                                 size="icon"
                                                 className="cursor-pointer md:hidden"
                                             >
-                                                {modo === MODO.EDITANDO ? <FaCheck /> : <IoIosMore />}
+                                                <IoIosMore />
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent>
@@ -268,7 +264,7 @@ const Projeto: React.FC<Props> = ({ nome, data: dataInicial, concluidaP: conclui
                                                         className="cursor-pointer"
                                                         onClick={() => onModo()}
                                                     >
-                                                        {modo === MODO.EDITANDO ? <FaCheck /> : <MdEdit />}
+                                                        <MdEdit />
                                                     </Button>
 
                                                     {modo === MODO.NORMAL && (

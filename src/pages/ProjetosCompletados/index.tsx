@@ -27,7 +27,7 @@ const ProjetosCompletados: React.FC = () => {
                 <ul>
                     {projetosCompletados.map(({ id, nome, data, concluidaP, tarefas, cor, expandido }) => {
                         return <Projeto key={id} id={id} nome={nome} data={data} concluidaP={concluidaP}
-                            expandido={false} onCheck={onCheck} onDelete={onDelete} onEdit={onEdit} tarefas={tarefas} cor={cor} onEditExpandido={onEditExpandido} />
+                            expandido={expandido} onCheck={onCheck} onDelete={onDelete} onEdit={onEdit} tarefas={tarefas} cor={cor} onEditExpandido={onEditExpandido} />
                     })}
                 </ul>
             }

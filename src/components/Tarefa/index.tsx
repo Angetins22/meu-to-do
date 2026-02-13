@@ -10,13 +10,9 @@ import { FaCheck } from "react-icons/fa";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { FaList } from "react-icons/fa";
 import { IoIosMore } from "react-icons/io";
 
 export interface ITarefa {
@@ -114,7 +110,7 @@ const Tarefa: React.FC<Props> = ({ tarefa, data: dataInicial, concluida, id, onC
                                                     size="icon"
                                                     className="cursor-pointer md:hidden"
                                                 >
-                                                    {modo === MODO.EDITANDO ? <FaCheck /> : <IoIosMore />}
+                                                    <IoIosMore />
                                                 </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent className="flex flex-row w-full justify-between">
@@ -125,7 +121,7 @@ const Tarefa: React.FC<Props> = ({ tarefa, data: dataInicial, concluida, id, onC
                                                         className="cursor-pointer"
                                                         onClick={() => onModo()}
                                                     >
-                                                        {modo === MODO.EDITANDO ? <FaCheck color="black" /> : <MdEdit color="black" />}
+                                                        <MdEdit color="black" />
                                                     </Button>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem className="flex flex-1">

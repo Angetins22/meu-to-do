@@ -32,12 +32,13 @@ const Adicionar: React.FC<Props> = ({ tipo, onAdicionar }) => {
             return
         }
 
+
         if (tipo === TIPO.TAREFA) {
-            onAdicionar({ id: new Date().getTime(), tarefa: nome, data, concluida: false, concluidaP: false, dentroDoProjeto: false })
+            onAdicionar({ id: 'a', tarefa: nome, data, concluida: false, concluidaP: false, dentroDoProjeto: false })
         }
 
         if (tipo === TIPO.PROJETO) {
-            onAdicionar({ id: new Date().getTime(), nome, data, concluidaP: false, expandido: true, tarefas: [] })
+            onAdicionar({ id: 'b', nome, data, concluidaP: false, expandido: true, tarefas: [] })
         }
 
         setNome('')

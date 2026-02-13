@@ -1,6 +1,6 @@
-import useAuthState from "@/hooks/useAuthState"
+
 import type { User } from "firebase/auth"
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
+import { createContext, useContext, useState, type ReactNode } from "react"
 
 interface UserContextType {
     user: User | null

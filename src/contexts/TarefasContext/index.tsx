@@ -1,6 +1,5 @@
 import type { ITarefa } from '@/components/Tarefa'
 import { createTarefa, deleteTarefa, getTarefas, updateTarefa } from '@/controllers/TarefaController'
-import { sleep } from '@/utils'
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import { useUser } from '../UserContext'
 

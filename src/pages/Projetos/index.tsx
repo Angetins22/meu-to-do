@@ -5,11 +5,10 @@ import type { IProjeto } from "@/components/Projeto"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { useProjetos } from "@/contexts/ProjetosContext"
-import { useState } from "react"
 import { IoIosRefresh } from "react-icons/io"
 
 const Projetos: React.FC = () => {
-    const { projetos, setProjetos, onDelete: _onDelete, onCheck: _onCheck, onEdit: _onEdit, adicionarProjeto: _adicionarProjeto, carregando, erro, carregarProjetos, onEditExpandido: _onEditExpandido } = useProjetos()
+    const { projetos, onDelete: _onDelete, onCheck: _onCheck, onEdit: _onEdit, adicionarProjeto: _adicionarProjeto, carregando, erro, carregarProjetos, onEditExpandido: _onEditExpandido } = useProjetos()
 
     // Filtra apenas projetos NÃO completados
     const projetosAtivos = projetos.filter(p => !p.concluidaP)

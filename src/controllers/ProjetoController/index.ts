@@ -1,12 +1,9 @@
-import { doc, deleteDoc, query, where, getDoc, CollectionReference, Timestamp } from "firebase/firestore";
-import { addDoc, collection, getDocs, getFirestore, updateDoc } from "firebase/firestore";
-import { initializeApp } from "firebase/app";
-import { firebase, FirebaseController } from "..";
+import { doc, deleteDoc, getDoc, CollectionReference, Timestamp } from "firebase/firestore";
+import { addDoc, collection, getDocs, updateDoc } from "firebase/firestore";
+import { firebase } from "..";
 import type { IProjeto } from "@/components/Projeto";
 import type { ITarefa } from "@/components/Tarefa";
-import { deleteTarefa } from "../TarefaController";
 import { v4 } from 'uuid';
-
 type SetProp<T, K extends keyof T, V> = {
     [P in keyof T]: P extends K ? V : T[P]
 }
