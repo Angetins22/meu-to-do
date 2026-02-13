@@ -25,6 +25,7 @@ const Login: React.FC = () => {
             if (credential === null) throw new Error('credencial nula')
             navigate('/home')
         } catch (error: any) {
+            console.log('erro no login: ', error)
             alert('erro no login')
         }
 
